@@ -1,11 +1,8 @@
-import allure
-from allure_commons.types import AttachmentType
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.common.exceptions import ElementNotVisibleException, ElementNotSelectableException, NoSuchElementException
+from selenium.common import ElementNotVisibleException, ElementNotSelectableException, NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
-import time
 
-class BasePage:
+class WaitUtil:
     def __init__(self, driver):
         self.driver = driver
 
