@@ -2,6 +2,9 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common import ElementNotVisibleException, ElementNotSelectableException, NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 
+from utils.SettingsTestData import SettingsTestData
+
+
 class WaitUtil:
     def __init__(self, driver):
         self.driver = driver
@@ -9,7 +12,7 @@ class WaitUtil:
     def waitForElement(self, locatorvalue, locatorType):
         locatorType = locatorType.lower()
         element = None
-        wait = WebDriverWait(self.driver, 25, poll_frequency=1,
+        wait = WebDriverWait(self.driver, SettingsTestData.get_wait_data().WAIT_TIMEOUT, poll_frequency=SettingsTestData.get_wait_data().POLL_FREQUENCY,
                              ignored_exceptions=[ElementNotVisibleException, ElementNotSelectableException,
                                                  NoSuchElementException])
         if locatorType == "id":
