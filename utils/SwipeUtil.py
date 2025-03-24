@@ -1,30 +1,30 @@
+import time
+
+from utils.SettingsTestData import SettingsTestData
 
 class SwipeUtility:
     def __init__(self, driver):
         self.driver = driver
 
-        self.swipe_start_x = 780
-        self.swipe_start_y = 1000
-        self.swipe_end_x = 780
-        self.swipe_end_y = 500
-        self.default_swipe_duration = 800  # Default duration in milliseconds
 
-    def swipe_action(self, swipe_duration=None, swipe_start_x=None, swipe_start_y=None, swipe_end_x=None,
-                     swipe_end_y=None):
+    def swipe_up_one_second(self, start_x=None, start_y=None, height=None, duration=300):
 
-        # Use the class variables or provided arguments for the swipe coordinates and duration
-        swipe_duration = swipe_duration or self.default_swipe_duration
-        swipe_start_x = swipe_start_x or self.swipe_start_x
-        swipe_start_y = swipe_start_y or self.swipe_start_y
-        swipe_end_x = swipe_end_x or self.swipe_end_x
-        swipe_end_y = swipe_end_y or self.swipe_end_y
-        # Calculate the distance in X and Y directions
-        distance_x = swipe_end_x - swipe_start_x
-        distance_y = swipe_end_y - swipe_start_y
-        # Calculate the time per pixel (in milliseconds per pixel)
-        time_per_pixel = swipe_duration / max(abs(distance_x), abs(distance_y))  # milliseconds per pixel
-        # Perform the swipe by dividing the swipe duration across the distance
-        self.driver.swipe(swipe_start_x, swipe_start_y, swipe_end_x, swipe_end_y, swipe_duration)
+        """
+        Swipe up on the time picker to increase the timer by one second.
 
-        print(f"Swipe performed with a duration of {swipe_duration}ms.")
-        print(f"Swipe speed: {1 / time_per_pixel:.2f} pixels/ms")
+        :param start_x: Starting X coordinate (center of the picker)
+        :param start_y: Starting Y coordinate (starting position)
+        :param height: Height of the picker (determines the swipe distance)
+        :param duration: Swipe duration in milliseconds
+        """
+        start_x = start_x or SettingsTestData.get_picker_coordinates().MIDPOINT_ON_X #(location in x = 658 + width = 236 // 2) Midpoint on X
+        start_y = start_y or SettingsTestData.get_picker_coordinates().STARTING_POINT_ON_Y #(location in y = 830 + height = 603 // 4) Starting point on the picker
+        height = height or SettingsTestData.get_picker_coordinates().SWIPE_PER_SECOND #(height = 603 // 6) Swipes a segment (approximately one second)
+
+        end_y = start_y - height
+
+        # Swipe up
+        self.driver.swipe(start_x, start_y, start_x, end_y, duration)
+        time.sleep(0.7) # Waits 700ms to ensure the change is registered
+
+        print(f"Swipe made of {start_y} to {end_y} in {duration}ms.")

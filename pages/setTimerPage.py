@@ -13,6 +13,7 @@ class SetTimer(WaitUtil):
     _frame_layout = 'new UiSelector().className("android.widget.FrameLayout").instance(0)'
     _set_count = "com.sportstracklive.stopwatch:id/setCountDown"
     _start = "com.sportstracklive.stopwatch:id/start"
+    _picker = 'new UiSelector().className("android.view.View").instance(3)'
 
     def clickPermissionsButton(self):
         permissions_btn = self.waitForElement(self._permissions,"id")
@@ -42,3 +43,10 @@ class SetTimer(WaitUtil):
     def clickStartBtn(self):
         start_btn = self.waitForElement(self._start,"id")
         start_btn.click()
+
+    def coordinates(self):
+        picker = self.waitForElement(self._picker,"uiautomator")
+        location = picker.location
+        size = picker.size
+
+        print(f"location {location} size {size}")

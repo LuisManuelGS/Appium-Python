@@ -1,3 +1,4 @@
+
 from base.DriverClass import Driver
 from pages.setTimerPage import SetTimer
 from utils.NotificationUtil import Notification
@@ -18,11 +19,15 @@ def test_count_down():
     set_timer.clickGotItBtn()
     set_timer.clickCountDownBtn()
     assert set_timer.isFrameDisplayed(), "FrameLayout not found."
-    swipe_utility.swipe_action(swipe_duration=100)
+
+    set_timer.coordinates()
+    for _ in range(5):  # Scroll down the number of times indicated in range.
+        swipe_utility.swipe_up_one_second()
+
     set_timer.clickSetCount()
     set_timer.clickStartBtn()
 
-    notification_text = notification.getNotification()
+    notification_text = notification.getNotification(6)
     assert "Countdown finished" == notification_text, f"Alert text does not match. Found: {notification_text}"
 
     driver.press_keycode(4)
